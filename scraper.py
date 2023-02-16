@@ -13,6 +13,8 @@ import pandas as pd
 import random
 from webdriver_manager.chrome import ChromeDriverManager
 
+timer = time.time()
+
 driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 url = 'https://www.broadwayleague.com/research/grosses-broadway-nyc/'
 wait = WebDriverWait(driver,10)
@@ -77,5 +79,7 @@ shows.to_csv('./data/shows.csv',header=True)
 weeks = pd.DataFrame(weekly)
 weeks.week_of = pd.to_datetime(weeks.week_of)
 weeks.to_csv('./data/weeks.csv',header=True)
+
+print(f'Done in {time.time() - timer} seconds')
 
 
