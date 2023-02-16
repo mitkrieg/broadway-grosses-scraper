@@ -67,7 +67,15 @@ for week in dates:
     shows = pd.concat([shows,table[cols]])
     time.sleep(random.randint(0, 3))
 
-shows.to_csv(header=True)
-pd.DataFrame(weekly).to_csv(header=True)
+shows.applymap(lambda x:x.getText())
+shows.week_of = pd.to_datetime(shows.week_of)
+shows.grosses = shows.grosses.str.replace('[ $,]','',regex=True).astype(int)
+shows.attendance = shows.attendance.str.replace('[ $,]','',regex=True).astype(int)
+shows.pct_capacity = shows.pct_capacity.str.replace('[ %]','',regex=True).astype(float) / 100
+shows.to_csv('./data/shows.csv',header=True)
+
+weeks = pd.DataFrame(weekly)
+weeks.week_of = pd.to_datetime(weeks.week_of)
+weeks.to_csv('./data/weeks.csv',header=True)
 
 
